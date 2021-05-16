@@ -38,8 +38,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys: [frontend-build]
+      - restore_cache:
+          keys: [frontend-build]
       - run:
           name: Build front-end
           command: |
@@ -69,31 +69,31 @@ jobs:
           paths: [backend/node_modules]
           key: backend-build
 
-  # test-frontend:
-  #   docker:
-  #     - image: circleci/node:13.8.0
-  #   steps:
-  #     - restore_cache:
-  #         keys: [frontend-build]
-  #     - run:
-  #         name: Back-end build
-  #         command: |
-  #           cd frontend
-  #           npm run test
-  #           # exit 1
+  test-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: Back-end build
+          command: |
+            cd frontend
+            npm run test
+            # exit 1
                 
-  # test-backend:
-  #   docker:
-  #     - image: circleci/node:13.8.0
-  #   steps:
-  #     - restore_cache:
-  #         keys: [frontend-build]
-  #     - run:
-  #         name: Back-end build
-  #         command: |
-  #           cd frontend
-  #           npm run test
-  #           # exit 1
+  test-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: Back-end build
+          command: |
+            cd frontend
+            npm run test
+            # exit 1
             
 #   scan-frontend:
 #     docker:
@@ -282,10 +282,10 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      # - test-frontend:
-      #     requires: [build-frontend]
-      # - test-backend:
-      #     requires: [build-backend]
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
       # - scan-backend:
       #     requires: [build-backend]
       # - scan-frontend:
