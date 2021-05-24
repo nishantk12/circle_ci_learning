@@ -12,7 +12,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name delete_stack
+            aws cloudformation delete-stack --stack-name <<parameters.delete_stack>>
             exit 1
 
 #   revert-migrations:
