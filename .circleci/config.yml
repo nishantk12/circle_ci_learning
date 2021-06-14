@@ -102,7 +102,7 @@ jobs:
             # exit 1
             
   scan-frontend:
-    docker:
+  docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
@@ -135,9 +135,11 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: opensimsim/aws-cli@1.2.0
+      - image: amazon/aws-cli:latest
     steps:
       - checkout
+      - run:
+
       - run:
           name: Ensure back-end infrastructure exists
           command: |
