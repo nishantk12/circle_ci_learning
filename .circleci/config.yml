@@ -135,7 +135,7 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: circleci/node:13.8.0
+      - image: opensimsim/aws-cli@1.2.0
     steps:
       - checkout
       - run:
