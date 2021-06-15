@@ -146,7 +146,6 @@ jobs:
               --tags project=udacity_automated \
               --stack-name "haskdncmas80qw9e8-udacity-backend" \
               --parameter-overrides ID="haskdncmas80qw9e8"  
-              exit 1
       - run:
           name: Ensure front-end infrastructure exist
           command: |
@@ -154,8 +153,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=udacity_automated \
               --stack-name "haskdncmas80qw9e8-udacity-frontend" \
-              --parameter-overrides ID="haskdncmas80qw9e8"  
-              exit 1
+              --parameter-overrides ID="haskdncmas80qw9e8"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
