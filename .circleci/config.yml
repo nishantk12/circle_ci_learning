@@ -152,7 +152,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --tags project=udacity_automated \
-              --stack-name "haskdncmas80qw9e8-udacity-frontend" \
+              --stack-name "haskdncmas80qw9e8-udacity-frontend"  \
               --parameter-overrides ID="haskdncmas80qw9e8"
       - run:
           name: Add back-end ip to ansible inventory
