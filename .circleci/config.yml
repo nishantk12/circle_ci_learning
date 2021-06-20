@@ -143,17 +143,17 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --tags project=udacity_automated \
-              --stack-name "haskdncmas80qw9e8-udacity-backend" \
-              --parameter-overrides ID="haskdncmas80qw9e8"  
+              # --tags project=udacity_automated \
+              # --stack-name "haskdncmas80qw9e8-udacity-backend" \
+              # --parameter-overrides ID="haskdncmas80qw9e8"  
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --tags project=udacity_automated \
-              --stack-name "haskdncmas80qw9e8-udacity-frontend" \
-              --parameter-overrides ID="haskdncmas80qw9e9"
+              # --tags project=udacity_automated \
+              # --stack-name "haskdncmas80qw9e8-udacity-frontend" \
+              # --parameter-overrides ID="haskdncmas80qw9e9"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
