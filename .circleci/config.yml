@@ -151,7 +151,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --tags project=udacity_automated \
+              --tags project=udacity_automated  \
               --stack-name "haskdncmas80qw9e8-udacity-frontend" \
               --parameter-overrides ID="haskdncmas80qw9e8"
       - run:
