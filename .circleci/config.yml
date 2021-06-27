@@ -144,10 +144,6 @@ jobs:
       - run:
           name: install gzip
           command: yum install -y gzip
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -170,6 +166,10 @@ jobs:
             aws cloudformation list-exports \
             --query "Exports[?Name==\`haskdncmas80qw9e8-udacity-backend-PublicIp\`].Value" \
             --no-paginate --output text >> .circleci/ansible/inventory.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
       - run:
           name: destroy-environment
           command: aws cloudformation delete-stack \
@@ -186,6 +186,8 @@ jobs:
   configure-infrastructure:
     docker:
       - image: ansible/ansible-runner
+    working_directory:
+      - /home/project/
     steps:
       - checkout
       - add_ssh_keys:
