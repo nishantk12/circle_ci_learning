@@ -171,6 +171,9 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - run:
+          name: display the inventory file
+          command: cat project/.circleci/ansible/inventory.txt
+      - run:
           name: destroy-environment
           command: aws cloudformation delete-stack \
             --stack-name "haskdncmas80qw9e8-udacity-frontend"
@@ -193,7 +196,7 @@ jobs:
           fingerprints:
             - "b9:c0:14:ea:65:de:ec:dd:e8:33:67:91:6d:7e:f6:6f"
       - attach_workspace:
-          at: ~/
+          at: /home/project/
       - run:
           name: Install dependencies
           command: |
