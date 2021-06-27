@@ -11,10 +11,26 @@
 
   pre_tasks:
     - name: "wait 600 seconds for target connection to become reachable/usable."
-      # Your code here
+        wait_for:
+          timeout: 300
 
-    - name: "install python for Ansible."
-      # Your code here
+    # - name: "install python for Ansible."
+    - name: "Update/upgrade packages"
+      command: sudo apt-get update
+    - name: "install node"
+      command: sudo apt install nodejs
+    - name: "Install pm2"
+      command: npm install pm2 -g
+    - name: "Set environment variables"
+      environment:
+        ENVIRONMENT: production
+        TYPEORM_CONNECTION: postgres
+        TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
+        TYPEORM_HOST: database-1.ckkn0xi9uixf.us-east-1.rds.amazonaws.com
+        TYPEORM_PORT: 5432
+        TYPEORM_USERNAME: postgres
+        TYPEORM_PASSWORD: postgres
+        TYPEORM_DATABASE: postgres
 
   roles:
-    # Your code here
+    - configure-server
