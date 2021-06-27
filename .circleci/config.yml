@@ -170,12 +170,16 @@ jobs:
             aws cloudformation list-exports \
             --query "Exports[?Name==\`haskdncmas80qw9e8-udacity-backend-PublicIp\`].Value" \
             --no-paginate --output text >> .circleci/ansible/inventory.txt
-      - destroy-environment:
-          delete_stack: "haskdncmas80qw9e8-udacity-backend"
-          # when: on_fail  
-      - destroy-environment:
-          delete_stack: "haskdncmas80qw9e9-udacity-frontend"
-          # when: on_fail  
+      - run:
+          name: destroy-environment
+          command: aws cloudformation delete-stack \
+            --stack-name "haskdncmas80qw9e8-udacity-frontend"
+          when: on_fail  
+      - run:
+          name: destroy-environment
+          command: aws cloudformation delete-stack \
+            --stack-name "haskdncmas80qw9e8-udacity-backend"
+          when: on_fail 
       
       # Here's where you will add some code to rollback on failure      
 
