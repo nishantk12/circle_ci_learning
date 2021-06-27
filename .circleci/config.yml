@@ -157,8 +157,9 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            # Your code here
-            exit 1
+            aws cloudformation list-exports \
+            --query "Exports[?Name==\`haskdncmas80qw9e8-udacity-backend-PublicIp\`].Value" \
+            --no-paginate --output text >> project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -166,7 +167,7 @@ jobs:
       - destroy-environment:
           delete_stack: "haskdncmas80qw9e8-udacity-backend"
       - destroy-environment:
-          delete_stack: "haskdncmas80qw9e8-udacity-frontend"
+          delete_stack: "haskdncmas80qw9e9-udacity-frontend"
       
       # Here's where you will add some code to rollback on failure      
 
