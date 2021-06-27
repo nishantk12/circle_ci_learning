@@ -155,8 +155,8 @@ jobs:
               --stack-name "haskdncmas80qw9e8-udacity-frontend" \
               --parameter-overrides ID="haskdncmas80qw9e9"
       - run:
-          name: get present directory
-          command: pwd
+          name: add tar
+          command: sudo yum install tar
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -174,24 +174,24 @@ jobs:
       
       # Here's where you will add some code to rollback on failure      
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  # configure-infrastructure:
+  #   docker:
+  #     - image: ansible/ansible
+  #   steps:
+  #     - checkout
+  #     # Add ssh keys with fingerprint
+  #     # attach workspace
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # Your code here
+  #           exit 1
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           # Your code here
+  #           exit 1
+  #     # Here's where you will add some code to rollback on failure      
 
 #   run-migrations:
 #     docker:
