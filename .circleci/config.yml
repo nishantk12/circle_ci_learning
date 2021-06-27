@@ -141,6 +141,9 @@ jobs:
       - run:
           name: install tar
           command: yum install -y tar
+      - run:
+          name: install gzip
+          command: yum install -y gzip
       - persist_to_workspace:
           root: ~/
           paths:
@@ -169,8 +172,10 @@ jobs:
             --no-paginate --output text >> .circleci/ansible/inventory.txt
       - destroy-environment:
           delete_stack: "haskdncmas80qw9e8-udacity-backend"
+          when: on_fail  
       - destroy-environment:
           delete_stack: "haskdncmas80qw9e9-udacity-frontend"
+          when: on_fail  
       
       # Here's where you will add some code to rollback on failure      
 
