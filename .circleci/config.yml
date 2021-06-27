@@ -155,11 +155,14 @@ jobs:
               --stack-name "haskdncmas80qw9e8-udacity-frontend" \
               --parameter-overrides ID="haskdncmas80qw9e9"
       - run:
+          name: get present directory
+          command: pwd
+      - run:
           name: Add back-end ip to ansible inventory
           command: |
             aws cloudformation list-exports \
             --query "Exports[?Name==\`haskdncmas80qw9e8-udacity-backend-PublicIp\`].Value" \
-            --no-paginate --output text >> project/.circleci/ansible/inventory.txt
+            --no-paginate --output text >> .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
