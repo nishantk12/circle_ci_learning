@@ -172,10 +172,10 @@ jobs:
             --no-paginate --output text >> .circleci/ansible/inventory.txt
       - destroy-environment:
           delete_stack: "haskdncmas80qw9e8-udacity-backend"
-          when: on_fail  
+          # when: on_fail  
       - destroy-environment:
           delete_stack: "haskdncmas80qw9e9-udacity-frontend"
-          when: on_fail  
+          # when: on_fail  
       
       # Here's where you will add some code to rollback on failure      
 
