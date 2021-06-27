@@ -200,8 +200,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-             ansible-playbook ~/.circleci/ansible/deploy-backend.yml
-            exit 1
+            ansible-playbook ~/.circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure      
 
 #   run-migrations:
