@@ -156,7 +156,7 @@ jobs:
               --parameter-overrides ID="haskdncmas80qw9e9"
       - run:
           name: add tar
-          command: sudo yum install tar
+          command: yum install tar
       - run:
           name: Add back-end ip to ansible inventory
           command: |
