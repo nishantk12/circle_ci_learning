@@ -187,7 +187,7 @@ jobs:
     docker:
       - image: ansible/ansible-runner
     working_directory:
-      - /home/project/
+      - path: /home/project/
     steps:
       - checkout
       - add_ssh_keys:
