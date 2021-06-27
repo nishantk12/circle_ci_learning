@@ -36,9 +36,3 @@ Resources:
         - Key: Name
           Value: !Sub backend-${ID}
   
-  Outputs:
-  Logical ID:
-    Description: Information about the value
-    Value: Value to return
-    Export:
-      Name: Value to export
