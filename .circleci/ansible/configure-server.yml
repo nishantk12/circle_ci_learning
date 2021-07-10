@@ -8,6 +8,15 @@
     - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
     - ansible_stdout_callback: yaml
+  environment:
+    ENVIRONMENT: production
+    TYPEORM_CONNECTION: postgres
+    TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
+    TYPEORM_HOST: database-1.ckkn0xi9uixf.us-east-1.rds.amazonaws.com
+    TYPEORM_PORT: 5432
+    TYPEORM_USERNAME: postgres
+    TYPEORM_PASSWORD: postgres
+    TYPEORM_DATABASE: postgres
 
   pre_tasks:
     - name: "wait 600 seconds for target connection to become reachable/usable."
@@ -22,15 +31,7 @@
     - name: "Install pm2"
       command: npm install pm2 -g
     - name: "Set environment variables"
-      environment:
-        ENVIRONMENT: production
-        TYPEORM_CONNECTION: postgres
-        TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
-        TYPEORM_HOST: database-1.ckkn0xi9uixf.us-east-1.rds.amazonaws.com
-        TYPEORM_PORT: 5432
-        TYPEORM_USERNAME: postgres
-        TYPEORM_PASSWORD: postgres
-        TYPEORM_DATABASE: postgres
+      
 
   roles:
     - configure-server
