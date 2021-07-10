@@ -192,6 +192,8 @@ jobs:
     docker:
       - image: ansible/ansible-runner
     working_directory: /home/project/
+    environment:
+      ANSIBLE_HOST_KEY_CHECKING: false
     steps:
       - checkout
       - add_ssh_keys:
@@ -202,6 +204,9 @@ jobs:
       - run:
           name: look at workspace contents
           command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
+      # - run:
+      #     name: create ansible config file
+      #     command: touch ~/.ansible.cfg; 
       - run:
           name: Install dependencies
           command: |
