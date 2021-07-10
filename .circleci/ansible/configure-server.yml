@@ -29,7 +29,7 @@
     - name: "install node"
       command: sudo apt-get install -y nodejs
     - name: Install npm
-      command: sudo apt install npm
+      command: sudo apt-get install -y npm
     - name: "Install pm2"
       command: npm install pm2 -g
     - name: "Install git"
