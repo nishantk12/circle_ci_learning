@@ -39,10 +39,10 @@
     #   command: sudo apt-get install libcap2-bin; sudo setcap cap_net_bind_service=+ep /usr/local/bin/node
     # - name: Git clone
     #   command: git clone https://github.com/nishantk12/circle_ci_learning.git
-    - name: look into the existint directory
-      command: ls -al .  
+    # - name: look into the existint directory
+    #   command: ls -al .  
     - name: start the backend server
-      command: cd circle_ci_learning/backend/; pm2 start npm -- start;
+      command: chdir=circle_ci_learning/backend/ pm2 start npm -- start
       
 
   roles:
