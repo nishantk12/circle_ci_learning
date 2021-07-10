@@ -31,7 +31,7 @@
     - name: Install npm
       command: sudo apt-get install -y npm
     - name: "Install pm2"
-      command: npm install pm2 -g
+      command: sudo npm install pm2 -g
     - name: "Install git"
       command: sudo apt-get install -y git
     - name: get the node to work on port 80
