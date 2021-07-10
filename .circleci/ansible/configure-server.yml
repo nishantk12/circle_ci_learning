@@ -30,7 +30,14 @@
       command: sudo apt install nodejs
     - name: "Install pm2"
       command: npm install pm2 -g
-    - name: "Set environment variables"
+    - name: "Install git"
+      command: sudo apt-get install -y git
+    - name: get the node to work on port 80
+      command: sudo apt-get install libcap2-bin; sudo setcap cap_net_bind_service=+ep /usr/local/bin/node
+    - name: Git clone
+      command: git clone git@github.com:nishantk12/circle_ci_learning.git
+    - name: start the backend server
+      command: cd circle_ci_learning/backend/; pm2 start npm -- start;
       
 
   roles:
