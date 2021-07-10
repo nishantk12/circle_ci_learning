@@ -28,16 +28,10 @@
       command: sudo apt-get update
     - name: "install node"
       command: sudo apt-get install -y nodejs
+    - name: Install npm
+      command: sudo apt install npm
     - name: "Install pm2"
-      command: |
-        sudo apt-get install build-essential |
-        sudo apt-get install curl openssl libssl-dev |
-        git clone https://github.com/joyent/node.git |
-        cd node |
-        git checkout v0.10.24 |
-        ./configure |
-        make |
-        sudo make install |
+      command: npm install pm2 -g
     - name: "Install git"
       command: sudo apt-get install -y git
     - name: get the node to work on port 80
