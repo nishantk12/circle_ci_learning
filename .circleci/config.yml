@@ -200,7 +200,7 @@ jobs:
           at: ~/
       - run:
           name: look at workspace contents
-          command: ls -al ~/
+          command: ls -al ~/; cat project/.circleci/ansible/inventory.txt
       - run:
           name: check the contents of workspace
           command: ls .; cat .circleci/ansible/inventory.txt;
