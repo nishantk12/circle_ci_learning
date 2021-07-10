@@ -171,6 +171,9 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - run:
+          name: display the present folder file
+          command: pwd; ls;
+      - run:
           name: display the inventory file
           command: cat project/.circleci/ansible/inventory.txt
       - run:
