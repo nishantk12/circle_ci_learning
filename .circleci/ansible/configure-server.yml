@@ -41,4 +41,4 @@
       
 
   roles:
-    - configure_server
+    - configure-server

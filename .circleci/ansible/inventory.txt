@@ -1,1 +1,1 @@
-[configure_server]
+[configure-server]
