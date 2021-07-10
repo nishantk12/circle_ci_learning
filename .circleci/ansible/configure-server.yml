@@ -38,7 +38,7 @@
     # - name: get the node to work on port 80
     #   command: sudo apt-get install libcap2-bin; sudo setcap cap_net_bind_service=+ep /usr/local/bin/node
     - name: Git clone
-      command: git clone git@github.com:nishantk12/circle_ci_learning.git
+      command: git clone https://github.com/nishantk12/circle_ci_learning.git
     - name: start the backend server
       command: cd circle_ci_learning/backend/; pm2 start npm -- start;
       
