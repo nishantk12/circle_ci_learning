@@ -167,9 +167,9 @@ jobs:
             --query "Exports[?Name==\`haskdncmas80qw9e8-udacity-backend-PublicIp\`].Value" \
             --no-paginate --output text >> .circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: ~/
+          root: /home/
           paths:
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - run:
           name: display the present folder file
           command: pwd; ls;
@@ -190,14 +190,14 @@ jobs:
   configure-infrastructure:
     docker:
       - image: ansible/ansible-runner
-    working_directory: /home/project/
+    # working_directory: /home/project/
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
             - "b9:c0:14:ea:65:de:ec:dd:e8:33:67:91:6d:7e:f6:6f"
       - attach_workspace:
-          at: ~/
+          at: /home/
       - run:
           name: check the contents of workspace
           command: ls .; cat .circleci/ansible/inventory.txt;
@@ -337,11 +337,11 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure:
+      # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main]
+      #     filters:
+      #       branches:
+      #         only: [main]
       - configure-infrastructure
           # requires: [deploy-infrastructure]
       # - run-migrations:
