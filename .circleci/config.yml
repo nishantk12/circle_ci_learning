@@ -210,11 +210,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt -vvvv
+            ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt
       - run:
           name: Configure server
           command: |
-            ansible-playbook /home/project/.circleci/ansible/deploy-backend.yml -i /home/project/.circleci/ansible/inventory.txt -vvvv
+            ansible-playbook /home/project/.circleci/ansible/deploy-backend.yml -i /home/project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure    
 
 #   run-migrations:

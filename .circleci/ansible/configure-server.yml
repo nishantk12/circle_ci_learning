@@ -27,7 +27,7 @@
     - name: "Update/upgrade packages"
       command: sudo apt-get update
     - name: "install node"
-      command: sudo apt install nodejs
+      command: sudo apt-get install -y nodejs
     - name: "Install pm2"
       command: npm install pm2 -g
     - name: "Install git"
