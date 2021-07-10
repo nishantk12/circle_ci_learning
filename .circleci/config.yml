@@ -190,17 +190,17 @@ jobs:
   configure-infrastructure:
     docker:
       - image: ansible/ansible-runner
-    working_directory: /home/project/
+    # working_directory: /home/project/
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
             - "b9:c0:14:ea:65:de:ec:dd:e8:33:67:91:6d:7e:f6:6f"
       - attach_workspace:
-          at: ~/
+          at: .
       - run:
           name: check the contents of workspace
-          command: pwd ~/
+          command: ls .; cat .circleci/ansible/inventory.txt;
       - run:
           name: Install dependencies
           command: |
