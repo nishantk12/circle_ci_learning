@@ -240,8 +240,9 @@ jobs:
       - run:
           name: Send migration results to memstash
           command: |
-              if  grep "has been executed successfully" backend/migrations_log.txt
-                curl -H "token: 8d7a2579-08d6-4634-ab0f-9991b68afb95" --request  GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+              if  [[ grep "has been executed successfully" backend/migrations_log.txt ]]
+              then
+                curl -H "Content-Type: text/plain" -H "token: 66245dc3-feb9-43fe-8207-28533082672b" --request PUT --data "1" https://api.memstash.io/values/
               else
                 npm run migrations:revert
               fi
