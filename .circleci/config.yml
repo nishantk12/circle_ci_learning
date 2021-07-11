@@ -204,9 +204,6 @@ jobs:
       - run:
           name: look at workspace contents
           command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
-      # - run:
-      #     name: create ansible config file
-      #     command: touch ~/.ansible.cfg; 
       - run:
           name: Install dependencies
           command: |
@@ -215,24 +212,40 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook /home/project/.circleci/ansible/deploy-backend.yml -i /home/project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure    
+      - run:
+          name: destroy-environment
+          command: aws cloudformation delete-stack \
+            --stack-name "haskdncmas80qw9e8-udacity-frontend"
+          when: on_fail  
+      - run:
+          name: destroy-environment
+          command: aws cloudformation delete-stack \
+            --stack-name "haskdncmas80qw9e8-udacity-backend"
+          when: on_fail     
 
-#   run-migrations:
-#     docker:
-#       # Docker image here that supports NodeJS
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Run migrations
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Send migration results to memstash
-#           command: |
-#             # Your code here
-#             exit 1
-#      # Here's where you will add some code to rollback on failure      
+  run-migrations:
+    docker:
+      - image: cimg/node:16.4.1
+    steps:
+      - checkout
+      - run:
+          name: Run migrations
+          command: |
+            cd backend
+            npm install
+            npm run build
+            touch migrations_log.txt
+            npm run migrations >> migrations_log.txt
+            cat migrations_log.txt
+      - run:
+          name: Send migration results to memstash
+          command: |
+              if  grep "has been executed successfully" backend/migrations_log.txt
+                curl -H "token: 8d7a2579-08d6-4634-ab0f-9991b68afb95" --request  GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+              else
+                npm run migrations:revert
+              fi
+     # Here's where you will add some code to rollback on failure      
 
 #   deploy-frontend:
 #     docker:
