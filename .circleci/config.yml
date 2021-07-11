@@ -233,6 +233,9 @@ jobs:
           command: |
             cd backend; npm install; touch migrations_log.txt; npm run migrations >> migrations_log.txt; cat migrations_log.txt
       - run:
+          name: check contents of file
+          command: cat backend/migrations_log.txt
+      - run:
           name: Send migration results to memstash
           command: |
               if grep -q "has been executed successfully" backend/migrations_log.txt;
