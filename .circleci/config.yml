@@ -239,7 +239,7 @@ jobs:
               then
                 curl -H "Content-Type: text/plain" -H "token: 66245dc3-feb9-43fe-8207-28533082672b" --request PUT --data "1" https://api.memstash.io/values/
               else
-                npm run migrations:revert
+                cd backend; npm run migrations:revert
               fi
      # Here's where you will add some code to rollback on failure      
 
