@@ -233,7 +233,7 @@ jobs:
           command: |
             cd backend; 
             echo "present folder `pwd`";
-            echo "installing npm"; npm install; 
+            # echo "installing npm"; npm install; 
             echo "creating migration file"; "touch migrations_log.txt; 
             echo "running migratationd"; npm run migrations >> migrations_log.txt; 
             echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
