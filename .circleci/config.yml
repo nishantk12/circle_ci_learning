@@ -225,7 +225,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:16.4.1
+      - image: circleci/node:9.10
     steps:
       - checkout
       - run:
@@ -235,7 +235,8 @@ jobs:
             echo "present folder `pwd`";
             # echo "installing npm"; npm install; 
             echo "creating migration file"; touch migrations_log.txt; 
-            echo "running migratationd"; npm run migrations >> migrations_log.txt; 
+            echo "install"
+            echo "running migratations"; npm run migrations >> migrations_log.txt; 
             echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
       - run:
           name: check contents of file
