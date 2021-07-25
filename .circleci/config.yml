@@ -231,7 +231,9 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            cd backend; npm install; touch migrations_log.txt; npm run migrations >> migrations_log.txt; cat migrations_log.txt
+            cd backend; |
+            echo "present folder `pwd`";
+            npm install; touch migrations_log.txt; npm run migrations >> migrations_log.txt; echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
       - run:
           name: check contents of file
           command: cat backend/migrations_log.txt
