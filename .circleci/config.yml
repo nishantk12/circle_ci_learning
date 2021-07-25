@@ -235,7 +235,7 @@ jobs:
             echo "present folder `pwd`";
             # echo "installing npm"; npm install; 
             echo "creating migration file"; touch migrations_log.txt; 
-            echo "install"
+            echo "install tsc"; npm install typescript -g
             echo "running migratations"; npm run migrations >> migrations_log.txt; 
             echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
       - run:
