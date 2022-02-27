@@ -244,6 +244,7 @@ jobs:
       - run:
           name: Send migration results to memstash
           command: |
+              cat backend/migrations_log.txt
               if grep -q "has been executed successfully" backend/migrations_log.txt;
               then
                 echo "inside if"
