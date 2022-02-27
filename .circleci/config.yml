@@ -224,7 +224,8 @@ jobs:
           when: on_fail     
 
   run-migrations:
-      executor: node
+      docker:
+      - image: ansible/ansible-runner
       steps:
         - checkout
         - attach_workspace:
