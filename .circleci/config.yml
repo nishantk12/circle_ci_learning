@@ -193,7 +193,7 @@ jobs:
       - image: ansible/ansible-runner
     working_directory: /home/project/
     environment:
-      ANSIBLE_HOST_KEY_CHECKING: false
+      ANSIBLE_HOST_KEY_CHECKING: False
     steps:
       - checkout
       - add_ssh_keys:
@@ -236,7 +236,8 @@ jobs:
             echo "installing npm"; npm install; 
             echo "creating migration file"; touch migrations_log.txt; 
             echo "install tsc"; sudo npm install typescript -g
-            echo "running migratations"; npm run migrations; #>> migrations_log.txt; 
+            echo "running migratations"; 
+            npm run migrations >> migrations_log.txt; 
             echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
       - run:
           name: check contents of file
