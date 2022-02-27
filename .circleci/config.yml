@@ -245,6 +245,7 @@ jobs:
             command: |
               npm install
               npm run migrations > migration.log
+              echo ":::MIGRATION:::"
               cat migration.log
               export migration_status=$(cat migration.log | grep -c "has been executed successfully")
               tar -zcvf ~/backend.tar.gz .
