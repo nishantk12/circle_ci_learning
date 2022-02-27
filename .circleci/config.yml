@@ -247,6 +247,7 @@ jobs:
               npm run migrations > migration.log
               export migration_status=$(cat migration.log | grep -c "has been executed successfully")
               tar -zcvf ~/backend.tar.gz .
+              echo $migration_status
               ls
         - run:
             name: check contents of file
