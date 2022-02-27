@@ -250,7 +250,7 @@ jobs:
               ls
         - run:
             name: check contents of file
-            command: cat migration.log
+            command: echo $migration_status
         - persist_to_workspace:
             root: ~/
             paths:
