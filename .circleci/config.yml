@@ -190,7 +190,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: demisto/ansible-runner
+      - image: demisto/ansible-runner:1.0.0.24037
     working_directory: /home/project/
     environment:
       ANSIBLE_HOST_KEY_CHECKING: False
