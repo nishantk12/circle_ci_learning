@@ -5,7 +5,7 @@ commands:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       delete_stack:
-        default: "haskdncmas80qw9e8"
+        default: "haskdncmas80qw9e9"
         type: string
     steps:
       - run:
@@ -151,21 +151,21 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --tags project=udacity_automated \
-              --stack-name "haskdncmas80qw9e8-udacity-backend" \
-              --parameter-overrides ID="haskdncmas80qw9e8"  
+              --stack-name "haskdncmas80qw9e9-udacity-backend" \
+              --parameter-overrides ID="haskdncmas80qw9e9"  
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --tags project=udacity_automated  \
-              --stack-name "haskdncmas80qw9e8-udacity-frontend" \
+              --stack-name "haskdncmas80qw9e9-udacity-frontend" \
               --parameter-overrides ID="haskdncmas80qw9e9"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
             aws cloudformation list-exports \
-            --query "Exports[?Name==\`haskdncmas80qw9e8-udacity-backend-PublicIp\`].Value" \
+            --query "Exports[?Name==\`haskdncmas80qw9e9-udacity-backend-PublicIp\`].Value" \
             --no-paginate --output text >> .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: /home/project/
@@ -180,12 +180,12 @@ jobs:
       - run:
           name: destroy-environment
           command: aws cloudformation delete-stack \
-            --stack-name "haskdncmas80qw9e8-udacity-frontend"
+            --stack-name "haskdncmas80qw9e9-udacity-frontend"
           when: on_fail  
       - run:
           name: destroy-environment
           command: aws cloudformation delete-stack \
-            --stack-name "haskdncmas80qw9e8-udacity-backend"
+            --stack-name "haskdncmas80qw9e9-udacity-backend"
           when: on_fail     
 
   configure-infrastructure:
@@ -215,12 +215,12 @@ jobs:
       - run:
           name: destroy-environment
           command: aws cloudformation delete-stack \
-            --stack-name "haskdncmas80qw9e8-udacity-frontend"
+            --stack-name "haskdncmas80qw9e9-udacity-frontend"
           when: on_fail  
       - run:
           name: destroy-environment
           command: aws cloudformation delete-stack \
-            --stack-name "haskdncmas80qw9e8-udacity-backend"
+            --stack-name "haskdncmas80qw9e9-udacity-backend"
           when: on_fail     
 
   run-migrations:
