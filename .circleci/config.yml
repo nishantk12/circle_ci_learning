@@ -190,7 +190,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: ansible/ansible-runner:stable-2.9-devel
+      - image: demisto/ansible-runner:1.0.0.24037
     working_directory: /home/project/
     environment:
       ANSIBLE_HOST_KEY_CHECKING: False
@@ -198,7 +198,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "b9:c0:14:ea:65:de:ec:dd:e8:33:67:91:6d:7e:f6:6f"
+            - "aa:93:0c:04:07:fc:84:37:29:a8:94:7e:7b:ce:c4:d7"
       - attach_workspace:
           at: /home/project/
       - run:
