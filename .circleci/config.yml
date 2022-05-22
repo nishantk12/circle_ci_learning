@@ -193,7 +193,7 @@ jobs:
       - image: ansible/ansible-runner
     working_directory: /home/project/
     environment:
-      ANSIBLE_HOST_KEY_CHECKING: false
+      ANSIBLE_HOST_KEY_CHECKING: False
     steps:
       - checkout
       - add_ssh_keys:
@@ -224,34 +224,73 @@ jobs:
           when: on_fail     
 
   run-migrations:
-    docker:
+      docker:
       - image: circleci/node:latest
-    steps:
-      - checkout
-      - run:
-          name: Run migrations
-          command: |
-            cd backend; 
-            echo "present folder `pwd`";
-            echo "installing npm"; npm install; 
-            echo "creating migration file"; touch migrations_log.txt; 
-            echo "install tsc"; sudo npm install typescript -g
-            echo "running migratations"; npm run migrations; #>> migrations_log.txt; 
-            echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
-      - run:
-          name: check contents of file
-          command: cat backend/migrations_log.txt
-      - run:
-          name: Send migration results to memstash
-          command: |
-              if grep -q "has been executed successfully" backend/migrations_log.txt;
-              then
-                echo "inside if"
-                curl -H "Content-Type: text/plain" -H "token: 66245dc3-feb9-43fe-8207-28533082672b" --request PUT --data "1" https://api.memstash.io/values/
-              else
-                echo "inside else"
-                cd backend; npm run migrations:revert
-              fi
+      steps:
+        - checkout
+        - attach_workspace:
+            at: .
+        - run:
+            name: Install AWS CLI dependencies
+            working_directory: /tmp
+            command: |
+              sudo apt-get update && sudo apt-get install -yy less
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+        - run:
+            name: Run migrations
+            no_output_timeout: 30m
+            working_directory: ./backend
+            command: |
+              npm install
+              npm run migrations > migration.log
+              export migration_status=$(cat migration.log | grep -c "has been executed successfully")
+              tar -zcvf ~/backend.tar.gz .
+              echo $migration_status
+              ls
+        - run:
+            name: check contents of file
+            command: echo $migration_status
+        - persist_to_workspace:
+            root: ~/
+            paths:
+              - backend.tar.gz
+              - migration.log
+
+  # run-migrations:
+  #   docker:
+  #     - image: circleci/node:latest
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Run migrations
+  #         command: |
+  #           cd backend; 
+  #           echo "present folder `pwd`";
+  #           echo "installing npm"; npm install; 
+  #           echo "creating migration file"; touch migrations_log.txt; 
+  #           echo "install tsc"; sudo npm install typescript -g
+  #           echo "running migratations"; 
+  #           npm run migrations >> migrations_log.txt; 
+  #           echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
+  #     - run:
+  #         name: check contents of file
+  #         command: cat backend/migrations_log.txt
+  #     - run:
+  #         name: Send migration results to memstash
+  #         command: |
+  #             cat backend/migrations_log.txt
+  #             if grep -q "has been executed successfully" backend/migrations_log.txt;
+  #             then
+  #               echo "inside if"
+  #               curl -H "Content-Type: text/plain" -H "token: 66245dc3-feb9-43fe-8207-28533082672b" --request PUT --data "1" https://api.memstash.io/values/
+  #             else
+  #               echo "inside else"
+  #               cd backend; npm run migrations:revert
+  #             fi
      # Here's where you will add some code to rollback on failure      
 
 #   deploy-frontend:
