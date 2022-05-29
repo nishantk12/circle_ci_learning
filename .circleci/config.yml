@@ -258,61 +258,31 @@ jobs:
               - backend.tar.gz
               - migration.log
 
-  # run-migrations:
-  #   docker:
-  #     - image: circleci/node:latest
-  #   steps:
-  #     - checkout
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Run migrations
-  #         command: |
-  #           cd backend; 
-  #           echo "present folder `pwd`";
-  #           echo "installing npm"; npm install; 
-  #           echo "creating migration file"; touch migrations_log.txt; 
-  #           echo "install tsc"; sudo npm install typescript -g
-  #           echo "running migratations"; 
-  #           npm run migrations >> migrations_log.txt; 
-  #           echo ":::MIGRATION LOGS:::"; cat migrations_log.txt
-  #     - run:
-  #         name: check contents of file
-  #         command: cat backend/migrations_log.txt
-  #     - run:
-  #         name: Send migration results to memstash
-  #         command: |
-  #             cat backend/migrations_log.txt
-  #             if grep -q "has been executed successfully" backend/migrations_log.txt;
-  #             then
-  #               echo "inside if"
-  #               curl -H "Content-Type: text/plain" -H "token: 66245dc3-feb9-43fe-8207-28533082672b" --request PUT --data "1" https://api.memstash.io/values/
-  #             else
-  #               echo "inside else"
-  #               cd backend; npm run migrations:revert
-  #             fi
-     # Here's where you will add some code to rollback on failure      
-
-#   deploy-frontend:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#             export API_URL="http://${BACKEND_IP}:3030"
-#             echo "${API_URL}"
-#       - run:
-#           name: Deploy frontend objects
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure      
+deploy-frontend:
+  docker: amazon/aws-cli:latest
+  steps:
+    - checkout
+    - run:
+        name: Install dependencies
+        command: |
+          sudo apt update
+          sudo apt install nodejs npm
+    - attach_workspace:
+        at: /home/project/
+    - run:
+        name: Get backend url
+        command: |
+          BACKEND_IP=$( tail -n 1 /home/project/.circleci/ansible/inventory.txt )
+          export API_URL="http://${BACKEND_IP}:3030"
+          echo "${API_URL}"
+    - run:
+        name: Deploy frontend objects
+        command: |
+          cd frontend
+          npm i
+          npm run build
+          aws s3 sync dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --recursive
+    # Here's where you will add some code to rollback on failure      
                     
 #   deploy-backend:
 #     docker:
@@ -392,27 +362,27 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main, update/deploy_infra]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
+      # - build-frontend
+      # - build-backend
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
+      # - deploy-infrastructure:
+      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     filters:
+      #       branches:
+      #         only: [main, update/deploy_infra]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
