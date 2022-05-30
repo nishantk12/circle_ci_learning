@@ -267,6 +267,7 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y tar
+            yum install -y gzip
       - attach_workspace:
           at: /home/project/
       - run:
