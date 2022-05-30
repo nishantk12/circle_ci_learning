@@ -263,11 +263,11 @@ jobs:
       - image: amazon/aws-cli:latest
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apt update
-            apt install nodejs npm
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apt update
+      #       apt install nodejs npm
       - attach_workspace:
           at: /home/project/
       - run:
