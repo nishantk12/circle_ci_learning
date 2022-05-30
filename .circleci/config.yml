@@ -268,6 +268,7 @@ jobs:
           command: |
             yum install -y tar
             yum install -y gzip
+            yum install -y nodejs npm
       - attach_workspace:
           at: /home/project/
       - run:
@@ -388,8 +389,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
