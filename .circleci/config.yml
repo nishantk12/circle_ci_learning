@@ -278,6 +278,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
+            export TERM=msys
             cd ~/project/frontend
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
             export BACKENDIP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
