@@ -281,11 +281,10 @@ jobs:
             export TERM=msys
             cd ~/project/frontend
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
-            export BACKENDIP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            echo $BACKENDIP
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             export API_URL="http://$BACKEND_IP:3030"
             echo "$API_URL"
-            echo API_URL="http://${BACKEND_IP}:3030" >> ".env"
+            echo API_URL >> ".env"
       - run:
           name: Deploy frontend objects
           command: |
