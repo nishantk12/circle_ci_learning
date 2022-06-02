@@ -300,10 +300,11 @@ jobs:
       - attach_workspace:
           at: /home/project/
       - run:
+          name: unzip backend
+          command: tar -czvf  /home/project/backend.tar.gz backend
+      - run:
           name: look at workspace contents
           command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
-      - attach_workspace:
-          at: /home/project/
       - run:
           name: Install dependencies
           command: |
@@ -391,8 +392,8 @@ workflows:
           filters:
             branches:
               only: [main, update/deploy_infra]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
