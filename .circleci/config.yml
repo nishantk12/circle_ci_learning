@@ -270,11 +270,6 @@ jobs:
             yum install -y gzip
             curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
             yum -y install nodejs
-      # - attach_workspace:
-      #     at: /home/project/
-      # - run:
-      #     name: look at workspace contents
-      #     command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
       - run:
           name: Get backend url
           command: |
@@ -294,22 +289,26 @@ jobs:
             aws s3 sync dist s3://udapeople-haskdncmas80qw9e1 --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
       # Here's where you will add some code to rollback on failure      
                     
-#   deploy-backend:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      - image: demisto/ansible-runner:1.0.0.24037
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "aa:93:0c:04:07:fc:84:37:29:a8:94:7e:7b:ce:c4:d7"
+      - attach_workspace:
+          at: /home/project/
+      - run:
+          name: Install dependencies
+          command: |
+            ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt
+      - run:
+          name: Deploy backend
+          command: |
+            cat ~/project/.circleci/ansible/inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
+      # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
 #     docker:
@@ -391,9 +390,9 @@ workflows:
       #     requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
-      - deploy-frontend
+      # - deploy-frontend:
           # requires: [run-migrations]
-      # - deploy-backend:
+      - deploy-backend
       #     requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
