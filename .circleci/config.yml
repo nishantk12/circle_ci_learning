@@ -301,7 +301,9 @@ jobs:
           at: /home/project/
       - run:
           name: unzip backend
-          command: tar -czvf  /home/project/backend.tar.gz /home/project/backend
+          command: |
+            mkdir -p /home/project/backend
+            tar -czvf  /home/project/backend.tar.gz /home/project/backend
       - run:
           name: look at workspace contents
           command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
