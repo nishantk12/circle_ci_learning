@@ -268,7 +268,7 @@ jobs:
           command: |
             yum install -y tar
             yum install -y gzip
-            yum install -y nodejs npm
+            yum install nodejs npm --enablerepo=epel
       # - attach_workspace:
       #     at: /home/project/
       # - run:
