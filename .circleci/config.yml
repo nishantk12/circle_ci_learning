@@ -306,7 +306,7 @@ jobs:
             tar -czvf  /home/project/backend.tar.gz /home/project/backend
       - run:
           name: look at workspace contents
-          command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
+          command: ls -al /home/project/; ls -al /home/project/.circleci/ansible; cat /home/project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -320,17 +320,19 @@ jobs:
 
 #   smoke-test:
 #     docker:
-#       # Lightweight Docker image 
+#       - image: circleci/node:13.8.0
 #     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
+#       - checkout
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       pip install awscli
 #       - run:
 #           name: Get backend url
 #           command: |
-#             # your code here
+#             export BACKENDIP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+              # echo "http://${BACKENDIP}:3030"
+              # curl "http://${BACKENDIP}:3030/api/status"
 #       - run:
 #           name: Backend smoke test.
 #           command: |
