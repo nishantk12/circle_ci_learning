@@ -297,11 +297,11 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "aa:93:0c:04:07:fc:84:37:29:a8:94:7e:7b:ce:c4:d7"
+       - attach_workspace:
+          at: /home/project/
       - run:
           name: look at workspace contents
           command: ls -al /home/project/; cat /home/project/.circleci/ansible/inventory.txt
-      - attach_workspace:
-          at: /home/project/
       - run:
           name: Install dependencies
           command: |
