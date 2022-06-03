@@ -324,21 +324,21 @@ jobs:
             ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
-#   smoke-test:
-#     docker:
-#       - image: circleci/node:13.8.0
-#     steps:
-#       - checkout
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       pip install awscli
-#       - run:
-#           name: Get backend url
-#           command: |
-#             export BACKENDIP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-              # echo "http://${BACKENDIP}:3030"
-              # curl "http://${BACKENDIP}:3030/api/status"
+  smoke-test:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install awscli
+      - run:
+          name: Get backend url
+          command: |
+            export BACKENDIP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            echo "http://${BACKENDIP}:3030"
+            curl "http://${BACKENDIP}:3030/api/status"
 #       - run:
 #           name: Backend smoke test.
 #           command: |
