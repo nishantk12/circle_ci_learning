@@ -275,7 +275,6 @@ jobs:
           command: |
             export TERM=msys
             cd ~/project/frontend
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
             export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             export API_URL="http://$BACKEND_IP:3030"
             echo "$API_URL"
@@ -297,25 +296,30 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "aa:93:0c:04:07:fc:84:37:29:a8:94:7e:7b:ce:c4:d7"
-      - attach_workspace:
-          at: /home/project/
       - run:
-          name: unzip backend
+          name: create inventory file
           command: |
-            mkdir -p /home/project/backend
-            tar -czvf  /home/project/backend.tar.gz /home/project/backend
-      - run:
-          name: look at workspace contents
-          command: ls -al /home/project/; ls -al /home/project/.circleci/ansible; cat /home/project/.circleci/ansible/inventory.txt
-      - run:
-          name: Install dependencies
-          command: |
-            ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt
+            echo "[configure_server]" > ~/inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
+      # - attach_workspace:
+      #     at: /home/project/
+      # - run:
+      #     name: unzip backend
+      #     command: |
+      #       mkdir -p /home/project/backend
+      #       tar -czvf  /home/project/backend.tar.gz /home/project/backend
+      # - run:
+      #     name: look at workspace contents
+      #     command: ls -al /home/project/; ls -al /home/project/.circleci/ansible; cat /home/project/.circleci/ansible/inventory.txt
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt
       - run:
           name: Deploy backend
           command: |
-            cat home/project/.circleci/ansible/inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            cat ~/project/.circleci/ansible/inventory.txt
+            ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
