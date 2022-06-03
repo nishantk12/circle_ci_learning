@@ -299,6 +299,7 @@ jobs:
       - run:
           name: create inventory file
           command: |
+            pip install awscli
             echo "[configure_server]" > ~/inventory.txt
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
       # - attach_workspace:
