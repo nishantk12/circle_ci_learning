@@ -8,7 +8,7 @@
 # - name: "install npm"
 #   shell: |
 #     sudo apt-get update
-#     sudo apt-get npm nodejs
+#     sudo apt-get install npm nodejs
 
 - name: "setup backend and start pm2"
   become: true

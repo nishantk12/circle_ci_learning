@@ -315,26 +315,12 @@ jobs:
             cd ~/project/backend
             npm i
             npm run build
-      #  - attach_workspace:
-      #     at: /home/project/workspace/
-      # - run:
-      #     name: zip backend
-      #     command: |
-      #       mkdir -p /home/project/backend
-      #       tar -czvf  /home/project/backend.tar.gz /home/project/backend
-      # - run:
-      #     name: look at workspace contents
-      #     command: ls -al /home/project/workspace/; ls -al /home/project/workspace/.circleci/ansible; cat /home/project/workspace/.circleci/ansible/inventory.txt
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt
       - run:
           name: Deploy backend
           command: |
             export ANSIBLE_HOST_KEY_CHECKING=False
             cd ~/project/
-            # tar -vcf backend.tar.gz backend
+            tar -vcf backend.tar.gz backend
             cat ~/inventory.txt
             ls ~/project/
             ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml -vvv
