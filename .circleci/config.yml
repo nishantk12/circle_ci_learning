@@ -332,6 +332,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
+            export ANSIBLE_HOST_KEY_CHECKING=False
             cd ~/project/
             tar -vcf backend.tar.gz backend
             cat ~/inventory.txt
