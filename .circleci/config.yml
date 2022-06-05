@@ -309,7 +309,7 @@ jobs:
             apt-get update
             apt-get install npm nodejs
             npm install -g typescript
-     - run:
+      - run:
           name: build backend
           command: |
             npm i
