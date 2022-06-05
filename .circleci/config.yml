@@ -307,7 +307,7 @@ jobs:
           name: install_dependencies
           command: |
             apt-get update
-            apt-get install npm nodejs
+            apt-get install -y npm nodejs
             npm install -g typescript
       - run:
           name: build backend
