@@ -1,19 +1,20 @@
-- name: "copy files to backend server."
-  become: true
-  copy:
-    src: ~/project/backend.tar.gz
-    dest: /home/ubuntu/backend.tar.gz
-    remote_src: false
+# - name: "copy files to backend server."
+#   become: true
+#   copy:
+#     src: ~/project/backend.tar.gz
+#     dest: /home/ubuntu/backend.tar.gz
+#     remote_src: false
 
-- name: "install npm"
-  shell: |
-    sudo apt-get update
-    sudo apt-get npm nodejs
+# - name: "install npm"
+#   shell: |
+#     sudo apt-get update
+#     sudo apt-get npm nodejs
 
 - name: "setup backend and start pm2"
+  become: true
   shell: |
     sudo npm i
-    npm i pm2 -g
+    sudo npm i pm2 -g
     sudo npm i npm@latest -g
     sudo npm i webpack-dev-server -g
     pm2 start main.js --update-env
