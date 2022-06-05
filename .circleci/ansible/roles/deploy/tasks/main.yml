@@ -1,0 +1,31 @@
+- name: "copy files to backend server."
+  become: true
+  copy:
+    src: /home/project/backend.tar.gz
+    dest: /home/ubuntu/backend.tar.gz
+    remote_src: yes
+
+- name: "install npm"
+  shell: |
+    sudo apt-get update
+    sudo apt-get npm nodejs
+
+- name: "setup backend and start pm2"
+  shell: |
+    sudo npm i
+    npm i pm2 -g
+    sudp npm i npm @latest -g
+    sudp npm i webpack-dev-server -g
+    pm2 start main.js --update-env
+  args:
+    chdir: /home/ubuntu/backend/dist
+  environment:
+    ENVIRONMENT: production
+    TYPEORM_CONNECTION: postgres
+    TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
+    TYPEORM_HOST: udacity-circle.cay0m4kje9c1.eu-west-2.rds.amazonaws.com
+    TYPEORM_PORT: 5432
+    TYPEORM_USERNAME: postgres
+    TYPEORM_PASSWORD: c5jaDcZN3W6Epr78
+    TYPEORM_DATABASE: postgres
+    ANSIBLE_HOST_KEY_CHECKING: false

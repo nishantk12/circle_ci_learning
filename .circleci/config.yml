@@ -303,26 +303,39 @@ jobs:
             echo "[web]" > ~/inventory.txt
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
             cat ~/inventory.txt
-      - attach_workspace:
-          at: /home/project/workspace/
+      - run:
+          name: install_dependencies
+          command: |
+            apt-get update
+            apt-get install npm nodejs
+            npm install -g typescript
+     - run:
+          name: build backend
+          command: |
+            npm i
+            cd /home/project/backend
+            npm run build
+      #  - attach_workspace:
+      #     at: /home/project/workspace/
       # - run:
       #     name: zip backend
       #     command: |
       #       mkdir -p /home/project/backend
       #       tar -czvf  /home/project/backend.tar.gz /home/project/backend
-      - run:
-          name: look at workspace contents
-          command: ls -al /home/project/workspace/; ls -al /home/project/workspace/.circleci/ansible; cat /home/project/workspace/.circleci/ansible/inventory.txt
+      # - run:
+      #     name: look at workspace contents
+      #     command: ls -al /home/project/workspace/; ls -al /home/project/workspace/.circleci/ansible; cat /home/project/workspace/.circleci/ansible/inventory.txt
       # - run:
       #     name: Install dependencies
       #     command: |
       #       ansible-playbook /home/project/.circleci/ansible/configure-server.yml -i /home/project/.circleci/ansible/inventory.txt
-      # - run:
-      #     name: Deploy backend
-      #     command: |
-      #       tar -C backend -czvf artifact.tar.gz .
-      #       cat ~/inventory.txt
-      #       ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml
+      - run:
+          name: Deploy backend
+          command: |
+            cd /home/project/
+            tar -vcf backend.tar.gz backend
+            cat ~/inventory.txt
+            ansible-playbook -i ~/inventory.txt ~/project/.circleci/ansible/deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
   smoke-test:
@@ -388,31 +401,31 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main, update/deploy_infra]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - build-frontend
+      # - build-backend
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
+      # - deploy-infrastructure:
+      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     filters:
+      #       branches:
+      #         only: [main, update/deploy_infra]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
+      - deploy-backend
+          # requires: [run-migrations]
+      # - smoke-test:
+      #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:

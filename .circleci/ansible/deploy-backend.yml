@@ -10,3 +10,13 @@
     - ansible_stdout_callback: yaml
   roles:
     - deploy
+  environment:
+    ENVIRONMENT: production
+    TYPEORM_CONNECTION: postgres
+    TYPEORM_ENTITIES: ./src/modules/domain/**/*.entity.ts
+    TYPEORM_HOST: udacity-circle.cay0m4kje9c1.eu-west-2.rds.amazonaws.com
+    TYPEORM_PORT: 5432
+    TYPEORM_USERNAME: postgres
+    TYPEORM_PASSWORD: c5jaDcZN3W6Epr78
+    TYPEORM_DATABASE: postgres
+    ANSIBLE_HOST_KEY_CHECKING: false
