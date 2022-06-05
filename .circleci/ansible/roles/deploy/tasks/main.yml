@@ -14,7 +14,7 @@
   shell: |
     sudo npm i
     npm i pm2 -g
-    sudo npm i npm @latest -g
+    sudo npm i npm@latest -g
     sudo npm i webpack-dev-server -g
     pm2 start main.js --update-env
   args:
