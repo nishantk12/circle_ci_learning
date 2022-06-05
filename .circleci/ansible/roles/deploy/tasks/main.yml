@@ -1,7 +1,7 @@
 - name: "copy files to backend server."
   become: true
   copy:
-    src: /home/project/backend.tar.gz
+    src: ~/project/backend.tar.gz
     dest: /home/ubuntu/backend.tar.gz
     remote_src: yes
 
