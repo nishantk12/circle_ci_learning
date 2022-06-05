@@ -313,7 +313,7 @@ jobs:
           name: build backend
           command: |
             cd ~/project/backend
-             npm i
+            npm i
             npm run build
       #  - attach_workspace:
       #     at: /home/project/workspace/
